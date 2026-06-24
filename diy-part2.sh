@@ -8,7 +8,7 @@
 # File name: diy-part2.sh
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 
-# 删除多余无用插件
+# 批量删除全部冗余服务插件
 sed -i '/CONFIG_PACKAGE_luci-app-watchcat/d' .config
 sed -i '/CONFIG_PACKAGE_luci-app-wol/d' .config
 sed -i '/CONFIG_PACKAGE_luci-app-kms/d' .config
@@ -17,24 +17,37 @@ sed -i '/CONFIG_PACKAGE_luci-app-natmap/d' .config
 sed -i '/CONFIG_PACKAGE_luci-app-upnp/d' .config
 sed -i '/CONFIG_PACKAGE_luci-app-xunlei/d' .config
 sed -i '/CONFIG_PACKAGE_luci-app-ddns-go/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-ddns/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-qbittorrent/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-aria2/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-filetransfer/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-flowoffload/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-samba/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-wireguard/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-zerotier/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-nlbwmon/d' .config
+sed -i '/CONFIG_PACKAGE_luci-app-bandwidthd/d' .config
 
-# 屏蔽v2ray/xray，彻底解决golang1.25编译冲突
+# 彻底屏蔽代理类工具及依赖
 sed -i '/CONFIG_PACKAGE.*v2ray/d' .config
 sed -i '/CONFIG_PACKAGE.*xray/d' .config
+sed -i '/CONFIG_PACKAGE.*sing-box/d' .config
 
-# 仅保留Argon主题
+# 仅保留Argon主题，删除其余默认主题
 sed -i '/luci-theme-bootstrap/d' .config
 sed -i '/luci-theme-material/d' .config
 sed -i '/luci-theme-openwrt/d' .config
 
-# 基础网络组件强制启用
+# 强制保留路由核心基础组件
+echo 'CONFIG_PACKAGE_luci=y' >> .config
+echo 'CONFIG_PACKAGE_luci-base=y' >> .config
 echo 'CONFIG_PACKAGE_dnsmasq-full=y' >> .config
 echo 'CONFIG_PACKAGE_firewall=y' >> .config
 
-# RAX3000Q WiFi优化参数
+# RAX3000Q WiFi无线参数优化
 sed -i '104a set wireless.radio${devidx}.rts=2347\
 set wireless.radio${devidx}.frag=1500' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
-# 开启Passwall全套编译
+# 不开启任何代理插件
 # echo 'CONFIG_PACKAGE_luci-app-passwall=y' >> .config
 # echo 'CONFIG_PACKAGE_luci-app-passwall2=y' >> .config
