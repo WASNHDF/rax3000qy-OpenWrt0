@@ -36,5 +36,5 @@ sed -i '104a set wireless.radio${devidx}.rts=2347\
 set wireless.radio${devidx}.frag=1500' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # 开启Passwall全套编译
-echo 'CONFIG_PACKAGE_luci-app-passwall=y' >> .config
-echo 'CONFIG_PACKAGE_luci-app-passwall2=y' >> .config
+# echo 'CONFIG_PACKAGE_luci-app-passwall=y' >> .config
+# echo 'CONFIG_PACKAGE_luci-app-passwall2=y' >> .config
